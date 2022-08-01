@@ -1,3 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using ThreadingExample;
 
-Console.WriteLine("Hello, World!");
+FileProcessoratorHandler.CreateTestFiles(10, 1000);
+
+var nonThreadingExample = new NonThreadingExample();
+nonThreadingExample.DoWork();
+
+var threadingExample = new DoTheThingsWithMultiThreading();
