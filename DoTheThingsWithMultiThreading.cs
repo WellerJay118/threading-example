@@ -10,13 +10,16 @@ public class DoTheThingsWithMultiThreading
     public void DoWork()
     {
         List<Thread> threads = new List<Thread>();
-        //starts the stopwatch timer
         var watch = Stopwatch.StartNew();
         foreach (var file in Files)
         {
-            //take each file, process it with a thread of its own instead of ProcessFile(file)
-            //each thread processes a file of its own, one thread gets one file
+            ThreadStart threadStart = (() => { ProcessFile(file); });
+            var thread = new Thread(threadStart);
+            thread.Start();
+            threads.Add(thread);
         }
+        //wait and join all threads for stopwatch
+        threads.ForEach(thread => thread.Join());
         watch.Stop();
         Console.WriteLine($"To process all files, it took: {watch.ElapsedMilliseconds} ms");
     }
